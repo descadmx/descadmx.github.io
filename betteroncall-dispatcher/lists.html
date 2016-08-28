@@ -1,0 +1,149 @@
+<html ng-app="boc" ng-controller="lists">
+    <head>
+
+        <title>BOC Dashboard App Prototype</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    </head>
+
+    <body>
+
+        <!-- Navbar. Polymer element actually loads all CSS/JS needed. -->
+        <boc-navbar></boc-navbar>
+
+        <!-- Actual app -->
+        <div class="container">
+
+            <p>&nbsp;</p>
+            <p>&nbsp;</p>
+
+            <div class="row">
+                
+                <div class="col-md-4">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <p>Users</p>
+                        </div>
+                        <div class="panel-body">
+                            <table class="table datatables">
+                                <thead>
+                                    <tr>
+                                        <th>Users</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat='u in users'>
+                                        <td><i class="fa fa-email"></i> {{u.email}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-4">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <p>Physicians</p>
+                        </div>
+                        <div class="panel-body">
+                            <table class="table datatables">
+                                <thead>
+                                    <tr>
+                                        <th>Physicians</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat='u in physicians'>
+                                        <td><i class="fa fa-user"></i> {{u.firstName}} {{u.lastName}}</td>
+                                        <td>{{u.userId}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-4">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <p>Patients</p>
+                        </div>
+                        <div class="panel-body">
+                            <table class="table datatables">
+                                <thead>
+                                    <tr>
+                                        <th>Patients</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat='u in patients'>
+                                        <td><i class="fa fa-user"></i> {{u.firstName}} {{u.lastName}}</td>
+                                        <td>{{u.userId}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+            
+        </div>
+
+
+        <!-- Polymer -->
+        <link href="bower_components/polymer/polymer.html" rel="import">
+        <link href="elements/boc-navbar.html" rel="import">
+        <link href="elements/boc-appointment-list.html" rel="import">
+        <link rel="import" href="bower_components/google-map/google-map.html">
+
+        <!-- CSS -->
+        <link rel="stylesheet" type="text/css" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
+        <link rel="stylesheet" type="text/css" href="https://bootswatch.com/lumen/bootstrap.min.css">
+        <link rel="stylesheet" type="text/css" href="bower_components/font-awesome/css/font-awesome.min.css">
+
+        <!-- JS -->
+        <script src="bower_components/jquery/dist/jquery.min.js"></script>
+        <!--script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script-->
+        <script type="text/javascript" src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+        <script src="bower_components/raphael/raphael.min.js"></script>
+        <script src="bower_components/morris.js/morris.min.js"></script>
+        <script src="bower_components/angular/angular.js"></script>
+        <script src="https://da189i1jfloii.cloudfront.net/js/kinvey-angular-1.6.10.js"></script>
+        <script src="boc-kinvey.js"></script>
+        <script src="boc-lists.js"></script>
+
+        <!-- Datatables -->
+        <script src="bower_components/datatables.net/js/jquery.dataTables.js"></script>
+        <link rel="stylesheet" type="text/css" href="bower_components/datatables/media/css/dataTables.bootstrap.min.css">
+        
+        <style>
+            .panel-body{
+                height: 300px;
+            }
+        </style>
+
+        <script>
+            Morris.Donut({
+                element: 'morris-donut-chart',
+                data: [{
+                    label: "Emergency",
+                    value: 12
+                }, {
+                    label: "Routine",
+                    value: 30
+                }, {
+                    label: "Specialty",
+                    value: 20
+                }],
+                resize: true
+            });
+
+        </script>
+
+
+    </body>
+</html>

@@ -1,0 +1,370 @@
+<html ng-app="boc">
+    <head>
+        <title>BOC Dashboard App Prototype</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+
+    <body>
+
+        <!-- Navbar. Polymer element actually loads all CSS/JS needed. -->
+        <boc-navbar></boc-navbar>
+
+        <!-- Actual app -->
+        <div class="container">
+
+            <p>&nbsp;</p>
+            <p>&nbsp;</p>
+
+            <div class="row text-center">
+
+                <div class="col-xs-12" ng-controller="requests">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h3>Current events</h3>
+                        </div>
+                        <div class="panel-body">
+                            <div class="row" style="height:100%;">
+                                <!--google-map api-key="AIzaSyBMQEUljSxiiSrmDQW3xBPWPZUr6VCexC8" latitude="32.1558328" longitude="-111.02389" zoom="11" id="googleMap">
+<google-map-marker ng-repeat="l in requests" latitude="{{l.location.lat}}" longitude="{{l.location.lng}}"></google-map-marker>
+</google-map-->
+                                <div id="map" style="width:100%;height:100%;"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--div class="col-sm-4">
+<div class="panel panel-default" ng-controller='physicians'>
+<div class="panel-heading">
+<h3 ng-click="getPhysicians()">Physicians </h3>
+</div>
+<div class="panel-body">
+<div class="row">
+<table class="table table-bordered datatables">
+<thead>
+<tr>
+<th>Name</th>
+<th class="text-right">Status</th>
+</tr>
+</thead>
+<tbody>
+<tr ng-repeat="p in physicians">
+<td>{{p.medicalId}} {{p.firstName}} {{p.lastName}} <a href="{{p.email}}" class="text-muted small">{{p.email}}</span></td>
+<td class="text-right">
+<div class="">{{ p.status }}</div>
+</td>
+</tr>
+</tbody>
+<tfoot>
+<tr>
+<td></td>
+<td class="text-right">
+<div class="btn btn-primary">
+View ALL
+</div>
+</td>
+</tr>
+</tfoot>
+</table>
+</div>
+</div>
+</div>
+</div-->
+
+                <div class="col-sm-12" ng-controller="requests">
+
+                    <form ng-submit="saveRequest()" class="modal fade" role="dialog" id="modal-request">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                    <h4 class="modal-title">Request handler <span class="text-muted small">{{msg}}</span></h4>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="col-sm-6">
+                                        <label>Patient {{currentRequest.patientId}}</label>
+                                        <div class="input-group">
+                                            <div class="input-group-addon"><i class="fa fa-user"></i></div>
+                                            <select ng-model="currentRequest.patientId" class="form-control" required ng-change="getPatientLocation()">
+                                                <option value="">Patient...</option>
+                                                <option ng-repeat="p in patients" value="{{p._id}}">{{p.lastName}}, {{p.firstName}}</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <label>Physician {{currentRequest.physicianId}}</label>
+                                        <div class="input-group">
+                                            <div class="input-group-addon"><i class="fa fa-user-md"></i></div>
+                                            <select ng-model="currentRequest.physicianId" class="form-control" required>
+                                                <option value="">Physician...</option>
+                                                <option ng-repeat="p in physicians" value="{{p._id}}">{{p.lastName}}, {{p.firstName}} ({{p.status}})</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <label>Date requested</label>
+                                        <div class="form-group input-group">
+                                            <div class="input-group-addon"><i class="fa fa-calendar"></i></div>
+                                            <input type="datetime-local" ng-model="dateRequested" class="form-control" required />
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <label>Date approved</label>
+                                        <div class="form-group input-group">
+                                            <div class="input-group-addon"><i class="fa fa-calendar"></i></div>
+                                            <input type="datetime-local" ng-model="dateStart" class="form-control" />
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-12">
+                                        <label>Reason</label>
+                                        <div class="form-group input-group">
+                                            <div class="input-group-addon"><i class="fa fa-edit"></i></div>
+                                            <input type="text" ng-model="currentRequest.comment" class="form-control" required />
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-12">
+                                        <label>Location requested</label>
+                                        <div class="form-group input-group">
+                                            <div class="input-group-addon"><i class="fa fa-edit"></i></div>
+                                            <input type="text" ng-model="locationRequested" class="form-control" required />
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-12">
+                                        <label>Status</label>
+                                        <div class="form-group input-group">
+                                            <div class="input-group-addon"><i class="fa fa-camera-retro"></i></div>
+                                            <select ng-model="currentRequest.status" class="form-control" required>
+                                                <option value="">Select ...</option>
+                                                <option>Requested</option>
+                                                <option>Finished</option>
+                                                <option>Missed</option>
+                                                <option>Current</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <div class="row">
+                                        <div class="col-sm-6 col-sm-offset-6">
+                                            <button type="submit" class="btn btn-success form-control"><i class="fa fa-hand-o-right"></i> {{saveButton}}</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </form>
+
+                    <div class="panel panel-default text-left">
+                        <div class="panel-heading">
+                            <h3>Appointments 
+                                <div class="pull-right">
+                                    <span class="btn btn-warning" ng-click="updateAll()">
+                                        <i class="fa fa-refresh"></i> Update
+                                    </span>
+                                    <span class="btn btn-warning" ng-click="handleRequest()">
+                                        <i class="fa fa-hand-pointer-o"></i> Create custom appt
+                                    </span>
+                                </div>
+                            </h3>
+                        </div>
+                        <div class="panel-body">
+                            <div class="row">
+                                <table class="table" id="requestsTable">
+                                    <thead>
+                                        <tr>
+                                            <!--th>ID</th-->
+                                            <th>Date requested</th>
+                                            <th>Patient</th>
+                                            <th>Physician</th>
+                                            <th>Type</th>
+                                            <th>Reason</th>
+                                            <th>Date approved</th>
+                                            <th>&nbsp;</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-repeat="r in requests">
+                                            <!--td>{{r._id}}</td-->
+                                            <td>{{r.dateRequested*1000 | date:'medium'}}</td>
+                                            <td>{{r.patient.lastName}}, {{r.patient.firstName}}</td>
+                                            <td>{{r.physician.medicalId}} {{r.physician.lastName}}, {{r.physician.firstName}} </td>
+                                            <td>{{r.service}}</td>
+                                            <td>{{r.reason}} {{r.comment}}</td>
+                                            <td>{{r.dateStart*1000 | date:'medium'}}</td>
+                                            <td><i class="fa fa-edit btn btn-sm btn-default" ng-click="handleRequest(r._id)"></i></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                </div> 
+
+                <div class="row" ng-controller="transactions">
+                    <div class="col-sm-8">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <span>Stripe&reg; Transactions</span>
+                                <span class="pull-right">
+                                    <div class="btn btn-default fa fa-refresh" ng-click="getTransactions()"></div>
+                                </span>
+                            </div>
+                            <div class="panel-body">
+                                <table class="table datatables table-stripped table-bordered" id="transactionsTable">
+                                    <thead>
+                                        <tr>
+                                            <th>Date</th>
+                                            <th>Type</th>
+                                            <th>Amount</th>
+                                            <th>Description</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-repeat="t in transactions" ng-click="viewTransaction(t._id)">
+                                            <td>{{t.created*1000 | date:"medium"}}</td>
+                                            <td>{{t.object}}</td>
+                                            <td class="text-right">{{t.amount/100 | currency}}</td>
+                                            <td>{{t.description}}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                Transaction details <span class="text-muted" ng-if="!currentTransaction._id">(select one to view)</span>
+                            </div>
+                            <div class="panel-body">
+                                <p>{{currentTransaction}}</p>
+                                <table></table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!--div class="col-sm-12">
+<div class="panel panel-default text-left">
+<div class="panel-heading">
+<h3>Claims 
+<span class="pull-right btn btn-warning">
+<i class="fa fa-plus"></i> View more
+</span>
+</h3>
+</div>
+<div class="panel-body">
+<div class="list-group">
+<a href="#" class="list-group-item">
+<i class="fa fa-comment fa-fw"></i> New Comment
+<span class="pull-right text-muted small"><em>4 minutes ago</em>
+</span>
+</a>
+<a href="#" class="list-group-item">
+<i class="fa fa-envelope fa-fw"></i> Message Sent
+<span class="pull-right text-muted small"><em>27 minutes ago</em>
+</span>
+</a>
+<a href="#" class="list-group-item">
+<i class="fa fa-upload fa-fw"></i> Server Rebooted
+<span class="pull-right text-muted small"><em>11:32 AM</em>
+</span>
+</a>
+<a href="#" class="list-group-item">
+<i class="fa fa-bolt fa-fw"></i> Server Crashed!
+<span class="pull-right text-muted small"><em>11:13 AM</em>
+</span>
+</a>
+<a href="#" class="list-group-item">
+<i class="fa fa-warning fa-fw"></i> Server Not Responding
+<span class="pull-right text-muted small"><em>10:57 AM</em>
+</span>
+</a>
+<a href="#" class="list-group-item">
+<i class="fa fa-money fa-fw"></i> Payment Received
+<span class="pull-right text-muted small"><em>Yesterday</em>
+</span>
+</a>
+</div>
+</div>
+</div>
+</div--> 
+                <!--div class="col-sm-12">
+<div class="panel panel-default text-left">
+<div class="panel-heading">
+<h3>Statistics 
+<span class="pull-right btn btn-warning">
+<i class="fa fa-plus"></i> View more
+</span>
+</h3>
+</div>
+<div class="panel-body">
+<div class="col-xs-8 col-xs-offset-2">
+<div id="morris-donut-chart"></div>
+</div>
+</div>
+</div>
+</div-->
+
+            </div>
+
+        </div>
+
+
+        <!-- Stripe -->
+        <script type="text/javascript" src="https://js.stripe.com/v2/"></script>
+
+        <!-- Polymer -->
+        <link href="bower_components/polymer/polymer.html" rel="import">
+        <link href="elements/boc-navbar.html" rel="import">
+        <link href="elements/boc-appointment-list.html" rel="import">
+        <!--link rel="import" href="bower_components/google-map/google-map.html">
+<link rel="import" href="bower_components/google-map/google-map-marker.html"-->
+
+        <!-- CSS -->
+        <link rel="stylesheet" type="text/css" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
+        <link rel="stylesheet" type="text/css" href="https://bootswatch.com/lumen/bootstrap.min.css">
+        <link rel="stylesheet" type="text/css" href="bower_components/font-awesome/css/font-awesome.min.css">
+        <link rel="stylesheet" type="text/css" href="bower_components/datatables/media/css/dataTables.bootstrap.min.css">
+
+        <!-- JS -->
+        <script src="bower_components/jquery/dist/jquery.min.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
+        <script type="text/javascript" src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+        <script type="text/javascript" src="bower_components/datatables.net/js/jquery.dataTables.js"></script>
+        <script src="bower_components/raphael/raphael.min.js"></script>
+        <script src="bower_components/morris.js/morris.min.js"></script>
+        <script src="bower_components/angular/angular.js"></script>
+        <script src="https://da189i1jfloii.cloudfront.net/js/kinvey-angular-1.6.10.js"></script>
+        <script src="boc-kinvey.js"></script>
+        <script src="boc-dashboard.js"></script>
+        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBMQEUljSxiiSrmDQW3xBPWPZUr6VCexC8"></script> <!--&callback=initMap async defer -->
+
+        <style>
+            .panel-body{
+                height: 500px;
+            }
+        </style>
+
+        <script>
+            Morris.Donut({
+                element: 'morris-donut-chart',
+                data: [{
+                    label: "Emergency",
+                    value: 12
+                }, {
+                    label: "Routine",
+                    value: 30
+                }, {
+                    label: "Specialty",
+                    value: 20
+                }],
+                resize: true
+            });
+
+        </script>
+
+
+    </body>
+</html>
