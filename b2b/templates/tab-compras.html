@@ -1,0 +1,19 @@
+<ion-view view-title="Mis compras">
+    <ion-nav-bar class="bar-royal">
+        <ion-nav-back-button></ion-nav-back-button>
+    </ion-nav-bar>
+    <ion-content class="paddingg">
+        <ion-list>
+            <ion-card ng-repeat="i in [1,2,3,4,5,6,7,8]">
+                <a class="item item-thumbnail-left" href="#">
+                    <img ng-src="http://lorempixel.com/{{i*3}}0/{{i*3}}0/">
+                    <h2>Producto {{i}}</h2>
+                    <p><span class="text-muted small">Producido por </span>Proveedor {{i}}</p>
+                    <p ng-if="i%2==0" class="text-right">Entregado <i class="icon ion-ios-checkmark"></i><i class="icon ion-ios-cart"></i></p>
+                    <p ng-if="i%2!=0" class="text-right">Por entregar <i class="icon ion-ios-cart-outline"></i></p>
+                    <p ng-if="i%3==0" class="text-right">Por pagar {{i*1.45 | currency}}</p>
+                </a>
+            </ion-card>
+        </ion-list>
+    </ion-content>
+</ion-view>

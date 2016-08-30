@@ -1,0 +1,105 @@
+<ion-view view-title="Productos">
+    <ion-nav-bar class="bar-royal">
+        <ion-nav-back-button></ion-nav-back-button>
+    </ion-nav-bar>
+    <ion-content class="">
+
+        <div class="bar bar-header item-input-inset">
+            <label class="item-input-wrapper">
+                <i class="icon ion-ios-search placeholder-icon"></i>
+                <input type="search" placeholder="Producto, codigo o caracteristica">
+            </label>
+            <button class="button button-calm">
+                Buscar
+            </button>
+        </div>
+
+        <div class="list">
+            <label class="item item-input item-select">
+                <div class="input-label">
+                    Categoría
+                </div>
+                <select>
+                    <option selected>Todos</option>
+                    <option>Alimenticio</option>
+                    <option>Servicios</option>
+                    <option>Transporte</option>
+                    <option>Otros</option>
+                </select>
+            </label>
+        </div>
+
+        <a class="list card" ng-click="verProducto()">
+            <div class="item item-divider">Sector alimienticio</div>
+            <div class="item item-avatar">
+                <img src="http://lorempixel.com/50/50/abstract">
+                <h2>Producto 1</h2>
+                <p>Delicioso</p>
+            </div>
+            <div class="item item-image">
+                <img src="http://lorempixel.com/300/300/food">
+            </div>
+            <div class="item">
+                <p>Productos relacionados</p>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <div class="item item-image">
+                        <img src="http://lorempixel.com/100/100/food">
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="item item-image">
+                        <img src="http://lorempixel.com/101/101/food">
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="item item-image">
+                        <img src="http://lorempixel.com/102/102/food">
+                    </div>
+                </div>
+            </div>
+            <a class="item item-icon-right calm" href="#">
+                <i class="icon ion-ios-cart"></i>
+                Ver más
+            </a>
+        </a>
+
+        <a class="list card" href="#/tab/producto">
+            <div class="item item-divider">Transporte y logística</div>
+            <div class="item item-avatar">
+                <img src="http://lorempixel.com/60/60/abstract">
+                <h2>Volatum</h2>
+                <p>Confiable y a tiempo</p>
+            </div>
+            <div class="item item-image">
+                <img src="http://lorempixel.com/300/300/transport">
+            </div>
+            <div class="item">
+                <p>Productos relacionados</p>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <div class="item item-image">
+                        <img src="http://lorempixel.com/100/100/transport">
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="item item-image">
+                        <img src="http://lorempixel.com/101/101/transport">
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="item item-image">
+                        <img src="http://lorempixel.com/102/102/transport">
+                    </div>
+                </div>
+            </div>
+            <a class="item item-icon-right calm" href="#">
+                <i class="icon ion-ios-cart"></i>
+                Ver más
+            </a>
+        </a>
+
+    </ion-content>
+</ion-view>
