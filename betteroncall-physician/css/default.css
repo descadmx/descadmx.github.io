@@ -1,0 +1,156 @@
+@font-face {
+    font-family: 'San Francisco';
+    src: url('../lib/YosemiteSanFranciscoFont/System San Francisco Display Regular.ttf');
+}
+@font-face {
+    font-family: 'San Francisco Bold';
+    src: url('../lib/YosemiteSanFranciscoFont/System San Francisco Display Bold.ttf');
+}
+@font-face {
+    font-family: 'San Francisco Thin';
+    src: url('../lib/YosemiteSanFranciscoFont/System San Francisco Display Thin.ttf');
+}
+@font-face {
+    font-family: 'San Francisco Ultralight';
+    src: url('../lib/YosemiteSanFranciscoFont/System San Francisco Display Ultralight.ttf');
+}
+
+
+body, p, div, input {
+    font-family: 'San Francisco','Helvetica';
+}
+
+body {
+    background-color: darkslateblue;
+}
+
+.item, ion-item, .item-complex .item-content {
+    border-color: rgba(0, 0, 0, 0);
+    background-color: rgba(0, 0, 0, 0);
+}
+
+
+.google-map {
+    height: 110px;
+}
+.google-static-map {
+    height: 50%;
+}
+.gm-style-iw { 
+    font-size: 6px;
+}
+.slider {
+    height: auto;
+}
+
+.modal{
+    padding-top: 50px;
+}
+.input-group-addon, .btn-success, .btn-primary, .btn-warning{
+    color: #ffffff;
+    border: 0px;
+}
+.panel-body {
+    padding-top: 5px;
+    margin-bottom: 0px;
+}
+#availability-switch{
+    height: 30px;
+}      
+.attached-tile{
+    overflow-y: hidden;
+}
+.requests-btn {
+    height: 60px;
+}
+
+.btn, .input-group-addon, .form-control, .navbar-default .navbar-toggle {
+    color: black;
+    background-color: rgba(255,255,255,0.2);
+    border: 1px solid #bbb;
+    border-radius: 7px;
+    text-shadow: 1px 1px 1px #bbb;
+}
+
+
+[ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
+    display: none !important;
+}
+
+.slide {
+    position: absolute;
+    width: 100%;
+    height: auto;
+}
+.slide.ng-enter,
+.slide.ng-leave {
+    -webkit-transition: all 0.5s ease;
+    transition: all 0.5s ease;
+}
+.slide.ng-enter {
+    left: 100%;
+}
+.slide.ng-enter-active {
+    left: 0;
+}
+.slide.ng-leave {
+    left: 0;
+}
+.slide.ng-leave-active {
+    left: -100%;
+}
+.columns-3 {
+    -moz-column-count: 3;
+    -moz-column-gap: 20px;
+    -webkit-column-count: 3;
+    -webkit-column-gap : 20px;
+    -moz-column-rule-color:  #ccc;
+    -moz-column-rule-style:  solid;
+    -moz-column-rule-width:  1px;
+    -webkit-column-rule-color:  #ccc;
+    -webkit-column-rule-style: solid ;
+    -webkit-column-rule-width:  1px;
+}
+
+.navbar-default, .navbar-default .navbar-nav>.active>a, .navbar-default .navbar-nav>.active>a:hover, .navbar-default .navbar-nav>.active>a:focus {
+    color: darkslategrey;
+    background-color: cornflowerblue;
+}
+
+.image-circle {
+    border-radius: 50%;
+}
+.item-input input, .item-input textarea {
+    font-size: 0.9em;
+    font-family: 'San Francisco';
+    border-bottom: 1px solid #cccccc;
+    background-color: rgba(0,0,0,0);
+}
+
+@media screen and (min-width: 480px) {
+    .modal-large {
+        width: 90%; 
+        height: 90%; 
+        top: 5%; left: 5%; 
+        right: 5%; 
+        bottom: 5%;
+    }
+}
+
+.inputfile {
+    opacity: 0 !important;
+    position: absolute !important;
+    left: 0 !important;
+    right: 0 !important;
+    top: 0 !important;
+    bottom: 0 !important;
+    width: 100% !important;
+}
+
+ion-content.custom-menu {
+    background-color: #3c3734;
+    box-shadow: 2px 2px 2px #cccccc;
+}
+ion-content.custom-menu a, ion-content.custom-menu .item, ion-content.custom-menu ion-list, ion-content.custom-menu h2, ion-content.custom-menu p {
+    color: #fffdfd;
+}

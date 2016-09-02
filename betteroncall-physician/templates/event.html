@@ -1,0 +1,118 @@
+<div class="col-xs-12 col-sm-10 col-sm-offset-1 col-md-8 col-md-offset-2 col-lg-6 col-lg-offset-3">
+
+    <div class="modal-header" ng-click="getAllEventsData()">
+        <h3>Event <span class="text-muted small">{{patient.firstName}} {{patient.lastName}}, {{eventType.name}}</span>
+            <span class="pull-right">
+                <a href="#/current-appointment/{{event.patientId}}/{{event._id}}" class="btn btn-default"><i class="fa fa-chevron-left"></i> Go back</a>
+            </span>
+        </h3>
+    </div>
+    <form class="modal-body" ng-submit="saveEvent()" id="event-form">
+        <p>{{modal_error}}</p>
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="panel panel-warning">
+                    <div class="panel-heading">
+                        <select class="form-control btn btn-warning" ng-model="currenttype" ng-change="getEventType()" ng-disabled="{{form_selector_disabled}}">
+                            <option ng-repeat="et in eventTypes" ng-value="{{et._id}}">{{et.name}}</option>
+                            <option>Emergency note</option>
+                            <option>Paramedics symptomatic</option>
+                            <option>Cardiology note</option>
+                        </select>
+                    </div>
+                    <form>
+                        <div class="panel-body">
+                            <div class="form-group">
+                                <div ng-repeat="e in eventType.model">
+                                    <div class="col-xs-{{e.bootstrap_size}}">
+                                        <label>{{e.label | limitTo:10}}<span ng-if="e.label.length>10">...</span> <span ng-if="e.required">*</span>
+                                            <span ng-if="e.name=='objective'" class="pull-right btn btn-default btn-xs hidden-xs" ng-click="openExtendedForm()">Extended form</span>
+                                        </label>
+                                        <div ng-if="e.type=='textarea'">
+                                            <textarea class="form-control" name="{{e.name}}" rows="{{e.size?e.size:4}}" required="{{e.required}}">{{event.data[e.name]}}</textarea>
+                                        </div>
+                                        <div ng-if="e.type!='textarea'">
+                                            <input class="form-control" type="{{e.type}}" name="{{e.name}}" placeholder="{{e.label}}"  ng-value="event.data[e.name]" required="{{e.required}}" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div ng-if="!eventType.model.length">
+                                    <p>Oops! This form seems to be empty. </p>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                    <div class="panel-footer">
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <div class="btn btn-default form-control" ng-click="refer()">
+                                    <i class="fa fa-envelope"></i> Refer to another physician
+                                </div>
+                            </div>
+                            <p class="small">&nbsp;</p>
+                            <div class="col-xs-6">
+                                <a type="reset" class="btn btn-danger form-control" href="#/current-appointment/{{event.patientId}}/{{event.requestId}}">
+                                    <i class="fa fa-trash-o"></i> Cancel
+                                </a>
+                            </div>
+                            <div class="col-xs-6">
+                                <button type="submit" id="attach-button" class="btn btn-success form-control">
+                                    <i class="fa fa-save"></i> Attach
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+
+</div>
+
+<div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" id="modal-saved">
+    <div class="modal-dialog">
+        <div class="modal-content modal-sm">
+            <div class="row">
+                <div class="col-sm-6 col-sm-offset-3">
+                    <h3>Event saved</h3>
+                    <p class="text-right">
+                        <a class="btn btn-success" ng-click="getBackToEvent()"><i class="fa fa-check"></i> Continue</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="extendedForm" role="dialog">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Extended EHR form</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="columns-3">
+                        <div ng-repeat="o in objectiveFormElements">
+                                <div class="panel-heading">{{o.name | uppercase}}</div>
+                                <div class="panel-body">
+                                    <div class="list-group small">
+                                        <div ng-repeat="d in o.data" class="input-group" ng-click="addToSOAP(d)">
+                                            <span class="input-group-addon success"><i class="fa fa-plus"></i></span>
+                                            <input class="form-control" placeholder="{{d | uppercase}}" />
+                                            <span class="input-group-addon danger"><i class="fa fa-minus"></i></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

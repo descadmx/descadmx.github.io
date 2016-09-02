@@ -1,0 +1,69 @@
+<ion-view>
+    <ion-nav-title>
+        <span class="" ng-click="showEverything()"><i class="fa fa-home"></i> My appointments</span>
+    </ion-nav-title>
+    <ion-content>
+        <ion-refresher
+                       pulling-text="Pull to refresh..."
+                       on-refresh="doRefresh()">
+        </ion-refresher>
+        <ion-list>
+            <div ng-repeat="a in groupedAppts">
+                <div class="item-divider">{{a.date}}</div>
+                <div class="item item-text-wrap" ng-repeat="b in a.appointments" ng-click="setCurrentAppointment(b._id)">
+
+                    <div ng-if="b.patient.firstName">
+                        <div class="item item-text-wrap item-wrap-text">
+                            <div class="row">
+                                <div class="col">
+                                    <b>{{b.patient.lastName}}, {{b.patient.firstName}}</b>
+                                    <span ng-if="b.dateStart" class="pull-right"> {{b.dateStart*1000 | date:'MM/dd h:mma'}}</span>
+                                    <span ng-if="!b.dateStart" class="pull-right">Requested for {{b.dateRequested*1000 | date:'MM/dd h:mma'}}</span>
+                                    <br />
+                                    <b>{{b.service}}: {{b.comment}}</b>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col">
+                                    <span>Location: {{b.locationRequested}}</span>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col"><span class="text-muted">DOB</span> {{b.patient.dob}}</div>
+                                <!--div class="col"><span class="text-muted">Age</span> {{b.patient.age}}</div-->
+                                <div class="col"><span class="text-muted">Gender</span> {{b.patient.gender}}</div>
+                            </div>
+                        </div>
+
+                        <!-- Showable only if it's the current/selected appointment -->
+                        <div ng-if="appt._id==b._id">
+                            <a ng-if="!useInteractiveMap" ng-href='geo:{{b.coords.lat}},{{b.coords.lng}};zoom=20' class="row">
+                                <img class="col google-static-map" ng-src="{{b.mapSrc}}" />
+                            </a>
+                            <div class="row" ng-if="b.dateStart">
+                                <div class="col">
+                                    <a class="button button-full button-smalll button-calm" ng-click="onMyWay()"><i class="fa fa-map-marker"></i> {{onMyWayButtonText}}</a>
+                                </div>
+                                <div class="col">
+                                    <a class="button button-full button-smalll button-balanced" href="#/app/appointment/{{b._id}}"><i class="fa fa-flag"></i> Start appt</a>
+                                </div>
+                            </div>
+                            <div class="row" ng-if="!b.dateStart">
+                                <div class="col">
+                                    <a class="button button-full button-smalll button-assertive" ng-click="declineCurrentAppointment()"><i class="icon ion-ios-circle-filled"></i> {{declineButtonText}}</a>
+                                </div>
+                                <div class="col">
+                                    <a class="button button-full button-smalll button-balanced" ng-click="acceptCurrentAppointment()"><i class="icon ion-ios-checkmark-outline"></i> {{acceptButtonText}}</a>
+                                </div>
+                            </div>
+                        </div>
+                        
+                    </div>
+
+
+                </div>
+            </div>
+            <ion-item ng-if="!groupedAppts.length" ng-click="getAppointments()">Tap to update</ion-item>
+        </ion-list>
+    </ion-content>
+</ion-view>

@@ -1,0 +1,113 @@
+<ion-view>
+    <ion-nav-buttons side="secondary">
+        <button class="button button-clear" ng-click="upperButton()">{{editButton}}</button>
+    </ion-nav-buttons>
+    <ion-nav-title>
+        <span class="">My account</span>
+    </ion-nav-title>
+    <ion-content id="myAccountForms" on-swipe-left="goBack()">
+
+        <form class="list" ng-submit="saveProfile()" eenctype="multipart/form-data">
+            <!--div class="item item-text-wrap item-avatar">
+<img ng-if="!profile.profilePicture.length" src="http://www.pharmacyreviewer.com/components/com_jfusion/images/noavatar.png" />
+<img ng-if="profile.profilePicture.length" ng-src="data:image/jpg;base64,{{profile.profilePicture}}" class="col" />
+<h2>My Better On Call Photo</h2>
+<p>Available to patients. </p>
+<label for="file" class="button button-small button-full" ng-click="upload()">
+<i class="icon ion-ios7-camera"></i>
+{{changeAvatarButtonText}}
+</label>
+</div-->
+            <div class="row" ng-click="popupUpload()">
+                <div class="col">&nbsp;</div>
+                <div class="col">
+                    <img class="full-image image-full image-circle" ng-if="!profile.profilePicture.length" src="http://www.pharmacyreviewer.com/components/com_jfusion/images/noavatar.png" />
+                    <img class="full-image image-full image-circle" ng-if="profile.profilePicture.length" ng-src="data:image/jpg;base64,{{userDetails.profilePicture}}" class="col" />
+                    <!--img class="full-image image-full image-circle" ng-if="profile.profilePicture.length" ng-src="data:image/jpg;base64,{{profile.profilePicture}}" class="col" /-->
+                </div>
+                <div class="col">&nbsp;</div>
+            </div>
+            <div class="item item-icon-left item-icon-right">
+                <i class="icon ion-person-stalker"></i>
+                <h2>Personal data</h2>
+                <!--i class="icon ion-edit" ng-click="enableEdit()"></i-->
+            </div>
+            <label class="item item-input item-select">
+                <span class="input-label">Title</span>
+                <select class="" ng-model="profile.medicalId">
+                    <option value="M.D.">M.D.</option>
+                    <option value="D.O.">D.O.</option>
+                    <option value="M.B.B.S.">M.B.B.S.</option>
+                    <option value="*">Other</option>
+                </select>
+            </label>
+            <!--ion-list>
+<ion-item>
+<ion-label>Title</ion-label>
+<ion-select [(ngModel)]="profile.medicalId" multiple="true">
+<ion-option>M.D.</ion-option>
+<ion-option>D.O.</ion-option>
+<ion-option>M.B.B.S.</ion-option>
+<ion-option>Other</ion-option>
+</ion-select>
+</ion-item>
+</ion-list-->
+            <label class="item item-input" ng-show="showTitleInput()">
+                <!--span class="input-label">Specify title</span-->
+                <input type="text" class="" ng-model="profile.medicalIdSpecific" placeholder="Specify title">
+            </label>
+            <label class="item item-input">
+                <!--span class="input-label">First Name</span-->
+                <input type="text" class="" ng-model="profile.firstName" placeholder="First Name">
+            </label>
+            <label class="item item-input">
+                <!--span class="input-label">Last Name</span-->
+                <input type="text" class="" ng-model="profile.lastName" placeholder="Last Name">
+            </label>
+            <!--label class="item item-input">
+<span class="input-label">License ID</span>
+<input type="text" class="text-right" ng-model="profile.licenseId">
+</label-->
+            <label class="item item-input">
+                <!--span class="input-label">Address</span-->
+                <input type="text" class="" ng-model="profile.address" placeholder="Address">
+            </label>
+            <label class="item item-input">
+                <!--span class="input-label">Address</span-->
+                <input type="text" class="" ng-model="profile.city" placeholder="City">
+            </label>
+            <label class="item item-input">
+                <!--span class="input-label">Address</span-->
+                <input type="text" class="" ng-model="profile.state" placeholder="State">
+            </label>
+            <label class="item item-input">
+                <!--span class="input-label">Address</span-->
+                <input type="number" class="" ng-model="profile.zipCode" placeholder="ZIP code">
+            </label>
+            <label class="item item-input">
+                <!--span class="input-label">Phone</span-->
+                <input type="tel" class="" ng-model="profile.phone" placeholder="Phone" ng-change="dashThisNumber()">
+            </label>
+            <label class="item item-input item-select">
+                <span class="input-label">Specialty</span>
+                <!--input type="text" class="text-right" ng-model="profile.specialty"-->
+                <select ng-model="profile.specialty">
+                    <option value="Pediatrics">Pediatrics</option>
+                    <option value="Internal medicine">Internal medicine</option>
+                    <option value="Family medicine">Family medicine</option>
+                    <option value="Emergency">Emergency</option>
+                </select>
+            </label>
+            <label class="item">
+                <span>Philosophy</span>
+            </label>
+            <label class="item item-input">
+                <textarea placeholder="Philosophy" ng-model="profile.philosophy" rows="5"></textarea>
+            </label>
+            <!--div class="item">
+<div class="col">
+<button type="submit" class="button button-positive button-full"><i class="fa fa-save"></i> {{saveButtonText}}</button>
+</div>
+</div-->
+            <div class="item">&nbsp;</div>
+        </form>

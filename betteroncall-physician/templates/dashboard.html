@@ -1,0 +1,110 @@
+<ion-view>
+    <ion-nav-title>
+        <span class="" ng-click="showEverything()"><i class="fa fa-home"></i> My appointments</span>
+    </ion-nav-title>
+    <ion-content>
+        <ion-refresher
+                       pulling-text="Pull to refresh..."
+                       on-refresh="doRefresh()">
+        </ion-refresher>
+        <ion-list>
+            <div>
+                <div ng-if="useInteractiveMap">
+                    <div class="item google-map" id="map_canvas" data-tap-disabled="{{mapTapDisabled}}" ng-style="{'height': '265px'}"></div>
+                </div>
+                <div ng-if="appt.patient.firstName">
+                    <div class="item item-text-wrap item-wrap-text">
+                        <div class="row">
+                            <a href="#/app/history/{{appt.patient._id}}" class="col avatar">
+                                <img ng-if="!appt.patient.profilePicture" class="full-image" src="img/noavatar.png" />
+                                <img ng-if="appt.patient.profilePicture" class="full-image" src="data:image/png;base64,{{appt.patient.profilePicture}}" />
+                            </a>
+                            <div class="col col-80">
+                                <b>{{appt.patient.lastName}}, {{appt.patient.firstName}}</b>
+                                <span ng-if="appt.dateStart">@ {{appt.dateStart*1000 | date:'MM/dd h:mma'}}</span>
+                                <span ng-if="!appt.dateStart">Requested for {{appt.dateRequested*1000 | date:'MM/dd h:mma'}}, at {{appt.locationRequested}}</span>
+                                <br />
+                                <!--b>{{appt.service}}: {{appt.comment | replace:"#":", "}}</b-->
+                                <b>{{appt.service}}: {{appt.comment}}</b>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col"><span class="text-muted">DOB</span> {{appt.patient.dob}}</div>
+                            <!--div class="col"><span class="text-muted">Age</span> {{appt.patient.age}}</div-->
+                            <div class="col"><span class="text-muted">Gender</span> {{appt.patient.gender}}</div>
+                        </div>
+                        <a ng-if="!useInteractiveMap" href='geo:37.786971,-122.399677;zoom=20' class="row">
+                            <img class="col google-map" ng-src="{{mapSrc}}" />
+                        </a>
+                    </div>
+                    <div class="row" ng-if="appt.dateStart">
+                        <div class="col">
+                            <a class="button button-full button-calm" ng-click="onMyWay()"><i class="fa fa-map-marker"></i> {{onMyWayButtonText}}</a>
+                        </div>
+                        <div class="col">
+                            <!--a class="button button-full button-smalll button-balanced" href="#/app/appointment/{{appt._id}}"><i class="fa fa-flag"></i> Start appt</a-->
+                            <a class="button button-full button-energized" ng-click="startAppointment(appt._id)">
+                                <i class="fa fa-flag"></i> {{acceptAppointmentButtonText}}
+                            </a>
+                        </div>
+                    </div>
+                    <div class="row" ng-if="!appt.dateStart">
+                        <div class="col">
+                            <a class="button button-full button-smalll button-assertive" ng-click="declineCurrentAppointment()"><i class="icon ion-ios-circle-filled"></i> {{declineButtonText}}</a>
+                        </div>
+                        <div class="col">
+                            <a class="button button-full button-smalll button-energized" ng-click="acceptCurrentAppointment()"><i class="icon ion-ios-checkmark-outline"></i> {{acceptButtonText}}</a>
+                        </div>
+                    </div>
+                    <div class="row" ng-if="error">
+                        <div class="col"><p>{{error}}</p></div>
+                    </div>
+                </div>
+                <ion-item ng-if="!appt.patient.firstName && upcoming.length">
+                    <p class="text-center"><i class="fa fa-info-circle"></i> Select an appointment to view details</p>
+                </ion-item>
+                <ion-item ng-if="!upcoming.length">
+                    <p class="text-center"><i class="fa fa-info-circle"></i> You have no appointments upcoming.</p>
+                </ion-item>
+            </div>
+            <div>
+
+                <!-- Legacy -->
+                <!--ion-item class="balanced">Upcoming appointments <span ng-if="upcoming.length">({{upcoming.length}})</span>
+</ion-item>
+<div ng-if="upcoming.length">
+<ion-item collection-repeat="u in upcoming" ng-click="setCurrentAppointment(u._id)">
+{{u.patient.firstName}} {{u.patient.lastName}} <span class="text-muted small" ng-if="u.comment"> {{u.comment}}</span>
+<span class="pull-right">{{u.dateStart*1000 | date:'MM/dd h:mma'}}</span>
+</ion-item>
+</div>
+<ion-item ng-if="!upcoming.length" ng-click="doRefresh()"><i class="fa fa-info-circle"></i> {{msg}}</ion-item>
+<ion-item>&nbsp;</ion-item>
+<ion-item>&nbsp;</ion-item-->
+
+                <!-- What it actually is -->
+                <ion-slide-box on-slide-changed="slideHasChanged($index)" show-pager="false" active-slide="appointmentSlide" on-slide-changed="showCurrentSlide()" class="aslider">
+                    <ion-slide ng-repeat="day in groupedAppts">
+                        <div class="list">
+                            <div class="button-bar">
+                                <div class="button button-clear button-dark"><i class="icon ion-ios-arrow-left"></i></div>
+                                <div class="button button-clear button-dark">{{day.date}}</div>
+                                <div class="button button-clear button-dark"><i class="icon ion-ios-arrow-right"></i></div>
+                            </div>
+                            <div class="item small" ng-repeat="u in day.appointments" ng-if="u.status!='Rejected'" ng-click="setCurrentAppointment(u._id)" repeat-done="repeatDone()">
+                                {{u.patient.firstName}} {{u.patient.lastName}} <span class="text-muted small" ng-if="u.comment"> {{u.comment}}</span>
+                                <span class="pull-right" ng-if="u.dateStart">{{u.dateStart*1000 | date:'MM/dd h:mma'}}</span>
+                                <span class="pull-right" ng-if="!u.dateStart">Request for {{u.dateRequested*1000 | date:'MM/dd h:mma'}}</span>
+                            </div>
+                        </div>
+                    </ion-slide>
+                </ion-slide-box>
+                <!--div class="item" ng-click="sortAppointments()">H {{groupedAppts}}</div-->
+            </div>
+            <ion-item ng-click="getAppointments()">{{msg}}</ion-item>
+            <ion-item>&nbsp;</ion-item>
+            <ion-item>&nbsp;</ion-item>
+
+        </ion-list>
+    </ion-content>
+</ion-view>

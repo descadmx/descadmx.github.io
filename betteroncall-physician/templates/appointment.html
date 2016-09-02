@@ -1,0 +1,159 @@
+<ion-view>
+    <ion-nav-title  class="">
+        <span class="">Appointment</span>
+    </ion-nav-title>
+
+    <ion-content>
+        <ion-refresher
+                       pulling-text="Pull to refresh..."
+                       on-refresh="doRefresh()">
+        </ion-refresher>
+        <ion-list>
+            <div ng-if="appt._id">
+                <ion-item>
+
+                </ion-item>
+                <div class="item item-icon-right">
+                    <span class="text-muted">Patient </span>{{patient.lastName}}, {{patient.firstName}}
+                    <!--i class="icon ion-ios-stopwatch-outline" ng-click="openHistory()"></i-->
+                    <a href="#/app/history/{{patient._id}}" title="History"><i class="icon ion-ios-stopwatch-outline"></i></a>
+                </div>
+                <ion-item>
+                    <p>
+                        <span class="text-muted">Age</span>
+                        <span class="pull-right">{{patient.dob}}</span>
+                    </p>
+                    <p>
+                        <span class="text-muted">Gender</span>
+                        <span class="pull-right">{{patient.gender}}</span>
+                    </p>
+                    <p ng-if="patient.allergies.length">
+                        <span class="text-muted">Allergies</span>
+                        <span class="pull-right">{{patient.allergies}}</span>
+                    </p>
+                    <p ng-if="patient.address.length">
+                        <span class="text-muted">Address</span>
+                        <span class="pull-right">{{patient.address}}</span>
+                    </p>
+                    <p ng-if="patient.emergencyContactName.length">
+                        <span class="text-muted">Emergency contact</span>
+                        <a href="phone:{{patient.emergencyContactPhone}}" class="pull-right"><i class="fa fa-phone"></i> {{patient.emergencyContactName}}</a>
+                    </p>
+                </ion-item>
+            </div>
+            <ion-item ng-if="!appt._id" class="text-center">
+                <i class="fa fa-info-circle"></i> Retrieving data...
+            </ion-item>
+            <form ng-submit="saveEvent()">
+                <label class="item item-input item-select" nng-show="!isIOS()">
+                    <div class="input-label">
+                        New event
+                    </div>
+                    <select ng-model="currentType" ng-change="setModel(currentType)" required>
+                        <option value="">Select... </option>
+                        <option ng-repeat="t in types" value="{{t._id}}" ng-value="{{t._id}}">{{t.name}}</option>
+                    </select>
+                </label>
+                <!--div ng-show="isIOS()" class="row">
+                    <div class="col">
+                        <select ng-model="currentType" ng-change="setModel(currentType)" required class="button button-light button-full">
+                            <option value="">New event... </option>
+                            <option ng-repeat="t in types" value="{{t._id}}" ng-value="{{t._id}}">{{t.name}}</option>
+                        </select>
+                    </div>
+                    <div class="col">
+                        <div class="button button-light button-full">Create</div>
+                    </div>
+                </div-->
+
+                <!--ion-item>
+<ion-label>Create event</ion-label>
+<ion-select [(ngModel)]="currentType" [(ngChange)]="setModel(currentType)">
+<ion-option value="">Select... </ion-option>
+<ion-option ng-repeat="t in types" value="{{t._id}}" ng-value="{{t._id}}">{{t.name}}</ion-option>
+</ion-select>
+</ion-item-->
+
+                <!-- Standard constructor -->
+                <div class="list" ng-show="showDynamicConstructor(constructor.name)">
+                    <div ng-repeat="i in constructor.model">
+                        <label ng-if="i.type!='textarea'" class="item item-input item-floating-label">
+                            <span class="input-label">{{i.label}}</span>
+                            <input type="{{i.type}}" ng-model="new[i.name]" placeholder="{{i.label}}" ng-change="watchMe(new)">
+                        </label>
+                        <label ng-if="i.type=='textarea'" class="item item-input item-stacked-label">
+                            <span class="input-label">{{i.label}}</span>
+                            <textarea msd-elastic ng-if="i.type=='textarea'" ng-model="new[i.name]" placeholder="{{i.label}}" ng-change="watchMe(new)" rows="5"></textarea>
+                        </label>
+                        <div ng-if="i.name=='objective'" class="row">
+                            <div class="col">
+                                <div class="button button-full button-light" ng-click="openExtendedEHR(i.name)"><i class="icon ion-ios-medkit-outline"></i> Open Extended EHR</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Vitals -->
+                <div ng-show="constructor.name=='Vitals'">
+                    <div class="row">
+                        <div class="col">
+                            <label class="item item-input item-floating-label">
+                                <span class="input-label">Temp</span>
+                                <input type="number" placeholder="Temp" ng-model="new.temp" ng-change="watchMe(new)">
+                            </label>
+                        </div>
+                        <div class="col">
+                            <label class="item item-input item-floating-label">
+                                <span class="input-label">Pulse</span>
+                                <input type="number" placeholder="Pulse" ng-model="new.pulse">
+                            </label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col col-50">
+                            <label class="item item-input item-floating-label">
+                                <span class="input-label">Respiratory Rate</span>
+                                <input type="number" placeholder="Respiratory Rate" ng-model="new.respiratory_rate">
+                            </label>
+                        </div>
+                                <div class="col">
+                                    <label class="item item-input item-floating-label">
+                                        <span class="input-label">BP Systolic</span>
+                                        <input type="number" placeholder="BP Systolic" ng-model="new.systolic">
+                                    </label>
+                                </div>
+                                <div class="col">
+                                    <label class="item item-input item-floating-label">
+                                        <span class="input-label">BP Diastolic</span>
+                                        <input type="number" placeholder="BP Diastolic" ng-model="new.diastolic">
+                                    </label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <label class="item item-input item-floating-label">
+                                <span class="input-label">Oxygen Saturation</span>
+                                <input type="number" placeholder="Oxygen Saturation" ng-model="new[oxygen_saturation]">
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row" ng-if="constructor.name.length">
+                    <div class="col">
+                        <button type="reset" class="button button-full button-stable">Cancel</button>
+                    </div>
+                    <div class="col">
+                        <button native-transitions type="submit" class="button button-full button-calm"><i class="fa fa-save"></i> {{saveButton}}</button>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <a class="button button-full button-calm" ng-click="finishAppointment()"><i class="fa fa-check-square-o"></i> {{finishButton}}</a>
+                    </div>
+                </div>
+            </form>
+            <ion-item class="item-text-wrap" ng-if="error">{{error}}</ion-item>
+        </ion-list>
+    </ion-content>
+</ion-view>

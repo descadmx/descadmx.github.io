@@ -1,0 +1,190 @@
+<html>
+    <head>
+
+        <title>BOC Dashboard App Prototype - EHR</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    </head>
+
+    <body>
+
+        <!-- Navbar. Polymer element actually loads all CSS/JS needed. -->
+        <boc-navbar></boc-navbar>
+
+        <!-- Actual app -->
+        <div class="container" ng-app="boc" ng-controller="ehr">
+
+            <p>&nbsp;</p>
+            <p>&nbsp;</p>
+
+            <div class="row">
+
+                <div class="col-sm-3">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <span>Patients list</span>
+                            <span class="pull-right">
+                                <div ng-click="getPatients()" class="btn btn-xs btn-warning"><i class="fa fa-refresh"></i> Refresh list</div>
+                            </span>
+                        </div>
+                        <div class="panel-body">
+                            <table class="table table-stripped table-bordered datatables">
+                                <thead>
+                                    <tr>
+                                        <th>Patient</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat='p in patients' ng-click="setCurrentPatient(p._id)">
+                                        <td>{{p.lastName}}, {{p.firstName}} <span class="text-muted small"><i class="fa fa-mars"></i> {{p.dob}}</span></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-sm-{{patient_panel_size}}">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <span>Patient EHR</span>
+                            <!--span class="pull-right">
+<div class="btn btn-xs btn-warning"><i class="fa fa-refresh"></i> Refresh EHR</div>
+</span-->
+                        </div>
+                        <div class="panel-body">
+                            <div class="col-sm-6">
+                                <div ng-if="patient.firstName">
+                                    <h3>{{patient.lastName}}, {{patient.firstName}}</h3>
+                                    <p>DOB: {{patient.dob}}</p>
+                                    <p>Allergies: {{patient.allergies}}</p>
+                                    <p>SSN: <b>{{patient.patient_ssn}}</b></p>
+                                    <p>Responsible name: {{patient.responsibleName}} <a href="tel:{{patient.responsiblePhone}}" class="btn btn-xs btn-primary fa fa-phone"></a></p>
+                                    <p class="btn btn-danger" id='display-ehr-button' ng-click="getEHR(patient._id)"><i class="fa fa-lock"></i> Open this EHR</p>
+                                </div>
+                                <div ng-if="!patient.patient_first_name">
+                                    <p>&nbsp;</p>
+                                    <h3>Select a patient to see its data</h3>
+                                    <p>&nbsp;</p>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <a href="#">
+                                    <img class="col-xs-12" ng-src="http://maps.googleapis.com/maps/api/staticmap?center={{patient.address}}&zoom=16&markers=color:blue%7Clabel:John%7C{{patient.address}}&size=400x400&style=element:labels|visibility:on&style=element:geometry.stroke|visibility:off&style=feature:landscape|element:geometry|saturation:-100&style=feature:water|saturation:-100|invert_lightness:true&key=AIzaSyBMQEUljSxiiSrmDQW3xBPWPZUr6VCexC8" />
+                                </a>
+                            </div>
+                            <div class="col-xs-12">
+                                <div class="panel panel-warning" ng-if="ehr.events.length">
+                                    <div class="panel-heading">History</div>
+                                    <div class="panel-body">
+                                        <div class="row">
+                                            <div class="col-sm-{{event_tile_size}}" ng-repeat="e in ehr.events" ng-click="setCurrentEvent(e._id)">
+                                                <div class="well">
+                                                    <b title="{{e._id}}">{{e._id | limitTo:8 }}...</b>
+                                                    <p>{{e._kmd.lmt}}</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-sm-4 {{event_view_hidden}}">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <span>Event {{currentevent._id}}</span>
+                        </div>
+                        <div class="panel-body">
+                            <table class="table table-stripped">
+                                <tbody>
+                                    <tr>
+                                        <td>Date</td>
+                                        <td class="text-right">{{currentevent._kmd.lmt}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Type</td>
+                                        <td class="text-right">{{currentevent.constructor.name}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Physician</td>
+                                        <td class="text-right">{{currentevent.physician.lastName}}, {{currentevent.physician.firstName}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <div class="row">
+                                <table class="table table-stripped table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <td>Key</td>
+                                            <td class="text-right">Value</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-repeat="i in currentevent.displaydata">
+                                            <td>{{i.key | ucfirst}}</td>
+                                            <th class="text-right">{{i.value | uppercase}}</th>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- Polymer -->
+        <link href="bower_components/polymer/polymer.html" rel="import">
+        <link href="elements/boc-navbar.html" rel="import">
+        <link href="elements/boc-appointment-list.html" rel="import">
+        <link rel="import" href="bower_components/google-map/google-map.html">
+
+        <!-- CSS -->
+        <link rel="stylesheet" type="text/css" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
+        <link rel="stylesheet" type="text/css" href="https://bootswatch.com/lumen/bootstrap.min.css">
+        <link rel="stylesheet" type="text/css" href="bower_components/font-awesome/css/font-awesome.min.css">
+
+        <!-- JS -->
+        <script src="bower_components/jquery/dist/jquery.min.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
+        <script type="text/javascript" src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+        <script type="text/javascript" src="bower_components/datatables.net/js/jquery.dataTables.min.js"></script>
+        <script src="bower_components/raphael/raphael.min.js"></script>
+        <script src="bower_components/morris.js/morris.min.js"></script>
+        <script src="bower_components/angular/angular.js"></script>
+        <script src="https://da189i1jfloii.cloudfront.net/js/kinvey-angular-1.6.10.js"></script>
+        <script src="boc-kinvey.js"></script>
+        <script src="boc-ehr.js"></script>
+
+        <script>
+
+            if($(".datatables").length)
+                $(".datatables").DataTable();
+
+            if($("#morris-donut-chart").length)
+                Morris.Donut({
+                    element: 'morris-donut-chart',
+                    data: [{
+                        label: "Emergency",
+                        value: 12
+                    }, {
+                        label: "Routine",
+                        value: 30
+                    }, {
+                        label: "Specialty",
+                        value: 20
+                    }],
+                    resize: true
+                });
+
+        </script>
+
+
+    </body>
+</html>

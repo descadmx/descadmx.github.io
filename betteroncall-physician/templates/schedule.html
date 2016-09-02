@@ -1,0 +1,62 @@
+<ion-view>
+
+    <ion-nav-buttons side="secondary">
+        <button class="button button-clear" ng-click="popupAddSlot()">Add</button>
+    </ion-nav-buttons>
+
+    <ion-nav-title  class="">
+        <span>My Schedule</span>
+    </ion-nav-title>
+
+    <ion-content>
+        <ion-refresher
+                       pulling-text="Pull to refresh..."
+                       on-refresh="doRefresh()">
+        </ion-refresher>
+        <div class="list">
+            <div class="item item-text-wrap">Select the days and timeslots you have available to make appointments at Better On Call</div>
+        </div>
+
+        <!--div class="row">
+<div class="col">
+<div class="list clonable" collection-repeat="s in slots">
+<label class="item item-input">
+<span class="input-label">From</span>
+<p>{{s.from*1000 | date:'medium'}}</p>
+</label>
+<label class="item item-input">
+<span class="input-label">To</span>
+<p>{{s.to*1000 | date:'medium'}}</p>
+</label>
+</div>
+</div>
+</div-->
+
+        <div class="row">
+            <div class="col">
+                <div class="list" ng-repeat="o in slots2">
+                    <div class="item item-divider"><i class="icon ion-calendar"></i> {{o.date}}</div>
+                    <div class="item" ng-repeat="s in o.slots">
+                        <!--label class="item item-input">
+<span class="input-label">From</span>
+<p>{{s.from*1000 | date:'HH:mma'}}</p>
+</label>
+<label class="item item-input">
+<span class="input-label">To</span>
+<p>{{s.to*1000 | date:'HH:mma'}}</p>
+</label-->
+                        <div class="row">
+                            <div class="col">
+                                <p><i class="icon ion-log-in"></i> {{s.from*1000 | date:'HH:mma'}}</p>
+                            </div>
+                            <div class="col text-right">
+                                <p><i class="icon ion-log-out"></i> {{s.to*1000 | date:'HH:mma'}}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div> 
+        </div>
+
+    </ion-content>
+</ion-view>

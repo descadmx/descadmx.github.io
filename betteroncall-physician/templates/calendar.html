@@ -1,0 +1,35 @@
+<ion-view>
+    <ion-nav-title assertive class="">
+        <span class="">My Calendar</span>
+    </ion-nav-title>
+    <ion-content>
+        <ion-refresher
+                       pulling-text="Pull to refresh..."
+                       on-refresh="doRefresh()">
+        </ion-refresher>
+        <ion-list>
+            <ion-item>&nbsp;</ion-item>
+            <ion-item ng-repeat="p in patients">
+                <span>Calendar</span>
+            </ion-item>
+            <ion-item>
+                <calendar style="height:500px;" 
+                          ng-model="calendar.currentDate" 
+                          calendar-mode="calendar.mode" 
+                          event-source="calendar.eventSource"
+                          rrange-changed="reloadSource(startTime, endTime)"
+                          event-selected="onEventSelected(event)" 
+                          ttitle-changed="onViewTitleChanged(title)"
+                          time-selected="onTimeSelected(selectedTime)" step="30">
+                </calendar>
+            </ion-item>
+            <ion-item>
+                <div class="button-bar">
+                    <div class="button button-light" ng-click="setMode('month')">Month</div>
+                    <div class="button button-light" ng-click="setMode('week')">Week</div>
+                    <div class="button button-light" ng-click="setMode('day')">Day</div>
+                </div>
+            </ion-item>
+        </ion-list>
+    </ion-content>
+</ion-view>

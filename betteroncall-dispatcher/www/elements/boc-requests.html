@@ -1,0 +1,36 @@
+<dom-module id="boc-requests">
+    <template>
+
+        <table class="table table-stripped table-bordered">
+            <thead>
+                <tr>
+                    <th>Date of request</th>
+                    <th>Patient</th>
+                    <th>Reason</th>
+                    <th>Next Appointment</th>
+                    <th>&nbsp;</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>John Doe</td>
+                    <td>
+                        <span><i class="fa fa-male"></i>, 38</span>
+                    </td>
+                    <td>2016-05-29 06:00p</td>
+                    <td>
+                        <span class="pull-right">
+                            <button class="btn btn-default"><i class="fa fa-edit"></i></button>
+                        </span>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+    </template>
+    <script>
+        Polymer({
+            is: 'boc-requests'
+        });
+    </script>
+</dom-module>

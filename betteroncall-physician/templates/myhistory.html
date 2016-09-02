@@ -1,0 +1,29 @@
+<ion-view>
+    <ion-nav-title>
+        <span class="">My history</span>
+    </ion-nav-title>
+    <ion-content>
+        <div ng-repeat="a in appointments" ng-click="selectAppointment(a._id)">
+            <div class="card">
+                <div class="item item-avatar">
+                    <img ng-if="a.profilePicture" ng-src="data:image/png;base64,{{a.profilePicture}}" />
+                    <img ng-if="!a.profilePicture" src="img/noavatar.png" />
+                    <h2>{{a.patient.lastName}}, {{a.patient.firstName}}
+                        <span class="pull-right text-small balanced">{{ a.status | capitalize }}</span>
+                    </h2>
+                    <p>{{a.dateStart*1000 | date:'medium'}}</p>
+                </div>
+                <ion-item class="item-text-wrap" ng-if="currentAppointment._id==a._id">
+                    <p ng-if="a.serviceType">Service type <b>{{a.serviceType}}</b></p>
+                    <p>Reason <b>{{a.comment}}</b></p>
+                    <p ng-if="dateFinish">Finished at {{a.dateFinish*1000 | date:'medium'}}</p>
+                    <div class="row">
+                        <div class="col">
+                            <a href="#/app/history/{{a.patient._id}}" class="button button-full button-assertive"><i class="icon ion-ios-clock-outline"></i> View history</a>
+                        </div>
+                    </div>
+                </ion-item>
+            </div>
+        </div>
+    </ion-content>
+</ion-view>

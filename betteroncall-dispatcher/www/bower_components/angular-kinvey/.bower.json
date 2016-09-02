@@ -1,0 +1,39 @@
+{
+  "name": "angular-kinvey",
+  "version": "2.0.1",
+  "ignore": [
+    "test/",
+    "kinvey-endpoints/",
+    "package.json",
+    "Gruntfile.js",
+    ".travis.yml"
+  ],
+  "main": [
+    "kinvey.js",
+    "kinvey.min.js"
+  ],
+  "dependencies": {
+    "angular": ">= v1.2.0-rc.3",
+    "angular-resource": ">= v1.2.0-rc.3",
+    "angular-base64": ">= v2.0.1"
+  },
+  "devDependencies": {
+    "angular": ">= v1.2.0-rc.3",
+    "angular-mocks": ">= v1.2.0-rc.3",
+    "angular-cookies": ">= v1.2.0-rc.3",
+    "angular-resource": ">= v1.2.0-rc.3",
+    "angular-base64": ">= v2.0.1",
+    "ngstorage": ">= 0.3.0"
+  },
+  "homepage": "https://github.com/ninjatronic/angular-kinvey",
+  "_release": "2.0.1",
+  "_resolution": {
+    "type": "version",
+    "tag": "v2.0.1",
+    "commit": "7c2b151b49aabab9238ef7ed6f644f4cc884ebd3"
+  },
+  "_source": "https://github.com/ninjatronic/angular-kinvey.git",
+  "_target": "^2.0.1",
+  "_originalSource": "angular-kinvey",
+  "_direct": true
+}

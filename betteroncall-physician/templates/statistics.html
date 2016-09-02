@@ -1,0 +1,181 @@
+<ion-view>
+    <ion-nav-title>
+        <span class="">Statistics</span>
+    </ion-nav-title>
+    <ion-content id="myAccountForms" on-swipe-left="goBack()">
+
+        <div class="list">
+            <div class="item">My ratings
+                <!--div class="button button-small button-calm  pull-right"><i class="fa fa-edit"></i> Change</div-->
+            </div>
+            <div class="item">
+                <div class="row">
+                    <div class="col">Average</div>
+                    <div class="col text-right"><b>{{stats.ratings/stats.count_raters | currency:""}} <i class="fa fa-star"></i></b></div>
+                </div>
+                <div
+                     bar-chart
+                     bar-data='[
+                               { y: "History", Female: 100, Male: 90 }
+                               ]'
+                     bar-x='y'
+                     bar-y='["Male", "Female"]'
+                     bar-labels='["Males", "Females"]'
+                     bar-colors='["#31C0BE", "#c7254e"]'>
+                </div>
+                <!--div
+                     bar-chart
+                     bar-data='stats.graph'
+                     bar-x='y'
+                     bar-y='["Male", "Female"]'
+                     bar-labels='["Males", "Females"]'
+                     bar-colors='["#31C0BE", "#c7254e"]'>
+                </div-->
+            </div>
+        </div>        
+
+        <div class="list">
+            <div class="item">
+                <h2><i class="fa fa-chart"></i> Statistics</h2>
+                <!--div class="button button-small button-primary  pull-right"><i class="fa fa-lock"></i> Unlock</div-->
+            </div>
+            <div class="item">
+                <div class="row">
+                    <div class="col">Appointments completed</div>
+                    <div class="col text-right"><b>{{stats.appointments_completed}}</b></div>
+                </div>
+                <div class="row">
+                    <div class="col">Time invested</div>
+                    <div class="col text-right"><b>{{stats.time_invested/3600 | currency:''}} hours</b></div>
+                </div>
+                <div class="row">
+                    <div class="col">SOAP's</div>
+                    <div class="col text-right"><b>{{stats.soaps}}</b></div>
+                </div>
+                <!--div class="row">
+                    <div class="col">Lab requests</div>
+                    <div class="col text-right"><b>20</b></div>
+                </div-->
+                <div class="row">
+                    <div class="col">Income earned</div>
+                    <div class="col text-right"><b>{{stats.income_earned | currency}}</b></div>
+                </div>
+                <div class="row" ng-repeat="s in services">
+                    <div class="col">{{s.service}}</div>
+                    <div class="col text-right"><b>{{s.count}}</b></div>
+                </div>
+                <!--div class="row">
+                    <div class="col">Physical exams</div>
+                    <div class="col text-right"><b>112</b></div>
+                </div>
+                <div class="row">
+                    <div class="col">Sick visits</div>
+                    <div class="col text-right"><b>404</b></div>
+                </div>
+                <div class="row">
+                    <div class="col">Injury visits</div>
+                    <div class="col text-right"><b>29</b></div>
+                </div-->
+            </div>
+        </div>        
+
+    </ion-content>
+</ion-view>
+
+<!--div class="col-xs-12 col-sm-10 col-sm-offset-1 col-md-8 col-md-offset-2 col-lg-6 col-lg-offset-3">
+
+<h3>My account</h3>
+
+<div class="list">
+<div class="item">Personal data
+<div class="button button-small button-calm  pull-right"><i class="fa fa-edit"></i> Change</div>
+</div>
+<div class="item">
+<div class="">
+<div class="col text-right">Name</div>
+<div class="col"><b>Vanessa Ives</b></div>
+</div>
+<div class="">
+<div class="col text-right">License ID</div>
+<div class="col"><b>1094810941-123</b></div>
+</div>
+</div>
+</div>        
+
+<div class="list">
+<div class="item">Payment method
+<div class="button button-small button-calm  pull-right"><i class="fa fa-edit"></i> Change</div>
+</div>
+<div class="item">
+<div class="">
+<div class="col text-right">Credit card owner</div>
+<div class="col"><b>Vanessa Ives</b></div>
+</div>
+<div class="">
+<div class="col text-right">Card Number</div>
+<div class="col"><b>VISA ****-****-****-*123</b></div>
+</div>
+</div>
+</div>        
+
+<div class="list">
+<div class="item">My ratings
+<div class="button button-small button-calm  pull-right"><i class="fa fa-edit"></i> Change</div>
+</div>
+<div class="item">
+<div class="">
+<div class="col text-right">Average</div>
+<div class="col"><b>4.5 <i class="fa fa-star"></i></b></div>
+</div>
+<div
+bar-chart
+bar-data='[
+{ y: "0-12", a: 100, b: 90 },
+{ y: "13-18", a: 75,  b: 65 },
+{ y: "19-25", a: 50,  b: 40 },
+{ y: "26-30", a: 75,  b: 65 },
+{ y: "31-50", a: 50,  b: 40 },
+{ y: "51-65", a: 75,  b: 65 },
+{ y: "65+", a: 100, b: 90 }
+]'
+bar-x='y'
+bar-y='["a", "b"]'
+bar-labels='["Males", "Females"]'
+bar-colors='["#31C0BE", "#c7254e"]'>
+</div>
+</div>
+</div>        
+
+<div class="list">
+<div class="item">Statistics
+<div class="button button-small button-primary  pull-right"><i class="fa fa-lock"></i> Unlock</div>
+</div>
+<div class="item">
+<div class="">
+<div class="col text-right">Appointments concluded</div>
+<div class="col text-right"><b>235</b></div>
+</div>
+<div class="">
+<div class="col text-right">Time invested</div>
+<div class="col text-right"><b>9023 min (123 hours)</b></div>
+</div>
+<div class="">
+<div class="col text-right">SOAP's</div>
+<div class="col text-right"><b>199</b></div>
+</div>
+<div class="">
+<div class="col text-right">Lab requests</div>
+<div class="col text-right"><b>20</b></div>
+</div>
+<div class="">
+<div class="col text-right">Earnt money</div>
+<div class="col text-right"><b>$ 1913.00</b></div>
+</div>
+<div class="">
+<div class="col text-right">Average bill</div>
+<div class="col text-right"><b>$ 21.40</b></div>
+</div>
+</div>
+</div>        
+
+</div-->
