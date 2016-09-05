@@ -153,8 +153,8 @@ app.controller('requests', function($kinvey,$scope,$rootScope,requestsFactory,pe
             if(o._id==index){
                 $scope.currentRequest = o;
                 console.log("Current request is now",$scope.currentRequest);
-                $scope.dateRequested =new Date($scope.currentRequest.dateRequested);
-                $scope.dateStart =new Date($scope.currentRequest.dateStart);
+                $scope.dateRequested =new Date( Math.floor($scope.currentRequest.dateRequested/1000)*1000 );
+                $scope.dateStart =new Date( Math.floor($scope.currentRequest.dateStart/1000)*1000 );
             }
         });
     }
@@ -167,10 +167,11 @@ app.controller('requests', function($kinvey,$scope,$rootScope,requestsFactory,pe
         console.log("Updating all");
     }
 
-    $interval(function(){
-        $scope.getAppointments();
-        console.log("Periodic update");
-    },30000);
+    if(false)
+        $interval(function(){
+            $scope.getAppointments();
+            console.log("Periodic update");
+        },20000);
 
     $timeout($scope.updateAll,2000);
 

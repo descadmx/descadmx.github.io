@@ -81,7 +81,7 @@ View ALL
                                 </div>
                                 <div class="modal-body">
                                     <div class="col-sm-6">
-                                        <label>Patient {{currentRequest.patientId}}</label>
+                                        <label>Patient {{ccurrentRequest.patientId}}</label>
                                         <div class="input-group">
                                             <div class="input-group-addon"><i class="fa fa-user"></i></div>
                                             <select ng-model="currentRequest.patientId" class="form-control" required ng-change="getPatientLocation()">
@@ -91,27 +91,34 @@ View ALL
                                         </div>
                                     </div>
                                     <div class="col-sm-6">
-                                        <label>Physician {{currentRequest.physicianId}}</label>
+                                        <label>Physician {{ccurrentRequest.physicianId}}</label>
                                         <div class="input-group">
                                             <div class="input-group-addon"><i class="fa fa-user-md"></i></div>
-                                            <select ng-model="currentRequest.physicianId" class="form-control" required>
+                                            <select ng-model="currentRequest.physicianId" class="form-control">
                                                 <option value="">Physician...</option>
                                                 <option ng-repeat="p in physicians" value="{{p._id}}">{{p.lastName}}, {{p.firstName}} ({{p.status}})</option>
                                             </select>
                                         </div>
                                     </div>
-                                    <div class="col-sm-6">
+                                    <div class="col-sm-12">
                                         <label>Date requested</label>
                                         <div class="form-group input-group">
                                             <div class="input-group-addon"><i class="fa fa-calendar"></i></div>
                                             <input type="datetime-local" ng-model="dateRequested" class="form-control" required />
                                         </div>
                                     </div>
-                                    <div class="col-sm-6">
+                                    <div class="col-sm-12">
                                         <label>Date approved</label>
                                         <div class="form-group input-group">
                                             <div class="input-group-addon"><i class="fa fa-calendar"></i></div>
                                             <input type="datetime-local" ng-model="dateStart" class="form-control" />
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-12">
+                                        <label>Service Type</label>
+                                        <div class="form-group input-group">
+                                            <div class="input-group-addon"><i class="fa fa-edit"></i></div>
+                                            <input type="text" ng-model="currentRequest.serviceType" class="form-control" required />
                                         </div>
                                     </div>
                                     <div class="col-sm-12">
@@ -121,23 +128,27 @@ View ALL
                                             <input type="text" ng-model="currentRequest.comment" class="form-control" required />
                                         </div>
                                     </div>
-                                    <div class="col-sm-12">
+                                    <div class="col-sm-8">
                                         <label>Location requested</label>
                                         <div class="form-group input-group">
                                             <div class="input-group-addon"><i class="fa fa-edit"></i></div>
                                             <input type="text" ng-model="locationRequested" class="form-control" required />
                                         </div>
                                     </div>
-                                    <div class="col-sm-12">
+                                    <div class="col-sm-4">
                                         <label>Status</label>
                                         <div class="form-group input-group">
                                             <div class="input-group-addon"><i class="fa fa-camera-retro"></i></div>
                                             <select ng-model="currentRequest.status" class="form-control" required>
                                                 <option value="">Select ...</option>
-                                                <option>Requested</option>
-                                                <option>Finished</option>
-                                                <option>Missed</option>
-                                                <option>Current</option>
+                                                <option>requested</option>
+                                                <option>pending</option>
+                                                <option>dispatched</option>
+                                                <option>enroute</option>
+                                                <option>ongoing</option>
+                                                <option>finished</option>
+                                                <option>canceled</option>
+                                                <option></option>
                                             </select>
                                         </div>
                                     </div>
@@ -324,7 +335,7 @@ View ALL
 
         <!-- CSS -->
         <link rel="stylesheet" type="text/css" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
-        <link rel="stylesheet" type="text/css" href="https://bootswatch.com/lumen/bootstrap.min.css">
+        <link rel="stylesheet" type="text/css" href="https://bootswatch.com/cerulean/bootstrap.min.css">
         <link rel="stylesheet" type="text/css" href="bower_components/font-awesome/css/font-awesome.min.css">
         <link rel="stylesheet" type="text/css" href="bower_components/datatables/media/css/dataTables.bootstrap.min.css">
 
